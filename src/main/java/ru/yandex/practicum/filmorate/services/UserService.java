@@ -32,7 +32,7 @@ public class UserService {
         }
 
         user.setId(counter++);
-        user.setUsername(userCreateRequest.getUsername());
+        user.setUsername(userCreateRequest.getName());
         user.setBirthday(userCreateRequest.getBirthday());
         user.setLogin(userCreateRequest.getLogin());
         user.setEmail(userCreateRequest.getEmail());
@@ -65,7 +65,7 @@ public class UserService {
             return null;
         }
 
-        user.setUsername(userUpdateRequest.getUsername());
+        user.setUsername(userUpdateRequest.getName());
         user.setBirthday(userUpdateRequest.getBirthday());
         user.setLogin(userUpdateRequest.getLogin());
         user.setEmail(userUpdateRequest.getEmail());
