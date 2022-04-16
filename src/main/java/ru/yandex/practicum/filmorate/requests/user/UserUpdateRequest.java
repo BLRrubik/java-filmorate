@@ -18,15 +18,18 @@ public class UserUpdateRequest {
     @NotEmpty
     @NotNull
     private int id;
+
     @Email
     private String email;
+
     @NotEmpty
     @NotNull
     private String login;
+
     @NotEmpty
     @NotNull
-    private String username;
-    @NotEmpty
+    private String name;
+
     @NotNull
     private LocalDate birthday;
 }

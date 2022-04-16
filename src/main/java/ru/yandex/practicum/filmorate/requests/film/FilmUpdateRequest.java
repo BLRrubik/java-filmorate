@@ -28,7 +28,6 @@ public class FilmUpdateRequest {
     @Size(max = 200, message = "max length is 200 symbols")
     private String description;
 
-    @NotEmpty
     @NotNull
     private LocalDate release;
 

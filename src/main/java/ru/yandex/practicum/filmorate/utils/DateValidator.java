@@ -4,10 +4,10 @@ import java.time.LocalDate;
 
 public class DateValidator {
     public static boolean isValidRelease(LocalDate localDate) {
-        return localDate.isBefore(LocalDate.of(1895,12,28));
+        return localDate.isAfter(LocalDate.of(1895,12,28));
     }
 
     public static boolean isValidBirthday(LocalDate localDate) {
-        return localDate.isAfter(LocalDate.now());
+        return localDate.isBefore(LocalDate.now());
     }
 }

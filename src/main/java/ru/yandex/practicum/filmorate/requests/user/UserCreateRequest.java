@@ -17,15 +17,17 @@ import java.time.LocalDate;
 public class UserCreateRequest {
     @Email
     @NotEmpty
+    @NotNull
     private String email;
 
     @NotEmpty
     @NotNull
     private String login;
 
-    private String username;
-
     @NotEmpty
+    @NotNull
+    private String name;
+
     @NotNull
     private LocalDate birthday;
 }
