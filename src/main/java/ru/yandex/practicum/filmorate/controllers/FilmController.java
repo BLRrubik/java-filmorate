@@ -24,12 +24,12 @@ public class FilmController {
         return ResponseEntity.of(Optional.of(filmService.getAll()));
     }
 
-    @PostMapping("/create")
+    @PostMapping("")
     public ResponseEntity<FilmDTO> create(@Valid @RequestBody FilmCreateRequest filmCreateRequest) {
         return ResponseEntity.of(Optional.of(filmService.add(filmCreateRequest)));
     }
 
-    @PostMapping("/update")
+    @PutMapping("")
     public ResponseEntity<FilmDTO> update(@Valid @RequestBody FilmUpdateRequest filmUpdateRequest) {
         return ResponseEntity.of(Optional.of(filmService.update(filmUpdateRequest)));
     }

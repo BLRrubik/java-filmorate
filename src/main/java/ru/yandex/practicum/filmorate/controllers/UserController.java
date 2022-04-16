@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/users")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -27,14 +27,14 @@ public class UserController {
         return ResponseEntity.of(Optional.of(userService.getAll()));
     }
 
-    @PostMapping("/create")
+    @PostMapping("")
     public ResponseEntity<UserDTO> create(@Valid @RequestBody UserCreateRequest userCreateRequest) {
         log.info("Request to add user");
 
         return ResponseEntity.of(Optional.of(userService.add(userCreateRequest)));
     }
 
-    @PostMapping("/update")
+    @PutMapping("")
     public ResponseEntity<UserDTO> update(@Valid @RequestBody UserUpdateRequest userUpdateRequest) {
         log.info("Request to update user");
 
