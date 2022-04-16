@@ -15,7 +15,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserUpdateRequest {
-    @NotEmpty
     @NotNull
     private int id;
 
