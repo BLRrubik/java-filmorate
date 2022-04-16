@@ -29,7 +29,7 @@ public class FilmUpdateRequest {
     private String description;
 
     @NotNull
-    private LocalDate release;
+    private LocalDate releaseDate;
 
     @NotEmpty
     @NotNull

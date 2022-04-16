@@ -24,7 +24,7 @@ public class FilmCreateRequest {
     private String description;
 
     @NotNull
-    private LocalDate release;
+    private LocalDate releaseDate;
 
     @NotEmpty
     @NotNull

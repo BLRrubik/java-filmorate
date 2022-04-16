@@ -26,14 +26,14 @@ public class FilmService {
     public FilmDTO add(FilmCreateRequest filmCreateRequest) {
         Film film = new Film();
 
-        if (!DateValidator.isValidRelease(filmCreateRequest.getRelease())) {
-            log.debug("Film has bad release date: " + filmCreateRequest.getRelease());
+        if (!DateValidator.isValidRelease(filmCreateRequest.getReleaseDate())) {
+            log.debug("Film has bad release date: " + filmCreateRequest.getReleaseDate());
             return null;
         }
 
         film.setName(filmCreateRequest.getName());
         film.setDescription(filmCreateRequest.getDescription());
-        film.setRelease(filmCreateRequest.getRelease());
+        film.setRelease(filmCreateRequest.getReleaseDate());
         film.setDuration(filmCreateRequest.getDuration());
 
         film.setId(counter++);
@@ -61,14 +61,14 @@ public class FilmService {
             return null;
         }
 
-        if (!DateValidator.isValidRelease(filmUpdateRequest.getRelease())) {
-            log.debug("Film has bad release date: " + filmUpdateRequest.getRelease());
+        if (!DateValidator.isValidRelease(filmUpdateRequest.getReleaseDate())) {
+            log.debug("Film has bad release date: " + filmUpdateRequest.getReleaseDate());
             return null;
         }
 
         film.setName(filmUpdateRequest.getName());
         film.setDescription(filmUpdateRequest.getDescription());
-        film.setRelease(filmUpdateRequest.getRelease());
+        film.setRelease(filmUpdateRequest.getReleaseDate());
         film.setDuration(filmUpdateRequest.getDuration());
 
         films.add(film);
