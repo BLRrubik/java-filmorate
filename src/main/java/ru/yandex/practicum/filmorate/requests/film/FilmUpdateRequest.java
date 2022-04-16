@@ -31,7 +31,6 @@ public class FilmUpdateRequest {
     @NotNull
     private LocalDate releaseDate;
 
-    @NotEmpty
     @NotNull
     @Positive
     private int duration;
