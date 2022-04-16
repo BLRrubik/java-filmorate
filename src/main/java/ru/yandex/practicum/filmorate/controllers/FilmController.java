@@ -14,7 +14,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/api/film")
+@RequestMapping("/film")
 public class FilmController {
     @Autowired
     private FilmService filmService;
