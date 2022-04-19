@@ -9,6 +9,7 @@ import ru.yandex.practicum.filmorate.requests.film.FilmCreateRequest;
 import ru.yandex.practicum.filmorate.requests.film.FilmUpdateRequest;
 import ru.yandex.practicum.filmorate.utils.DateValidator;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class FilmService {
         film.setName(filmCreateRequest.getName());
         film.setDescription(filmCreateRequest.getDescription());
         film.setRelease(filmCreateRequest.getReleaseDate());
-        film.setDuration(filmCreateRequest.getDuration());
+        film.setDuration(Duration.ofMinutes(filmCreateRequest.getDuration()));
 
         film.setId(counter++);
 
@@ -74,7 +75,7 @@ public class FilmService {
         film.setName(filmUpdateRequest.getName());
         film.setDescription(filmUpdateRequest.getDescription());
         film.setRelease(filmUpdateRequest.getReleaseDate());
-        film.setDuration(filmUpdateRequest.getDuration());
+        film.setDuration(Duration.ofMinutes(filmUpdateRequest.getDuration()));
 
         films.add(film);
 

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.Duration;
 import java.time.LocalDate;
 
 @Getter
@@ -16,5 +17,5 @@ public class Film {
     private String name;
     private String description;
     private LocalDate release;
-    private int duration;
+    private Duration duration;
 }

@@ -17,8 +17,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class UserCreateRequest {
     @Email
-    @NotEmpty
-    @NotNull
     private String email;
 
     @NotEmpty

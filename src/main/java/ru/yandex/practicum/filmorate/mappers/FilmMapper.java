@@ -15,7 +15,7 @@ public class FilmMapper {
                 film.getName(),
                 film.getDescription(),
                 film.getRelease(),
-                film.getDuration()
+                (int) film.getDuration().toMinutes()
         );
     }
 
