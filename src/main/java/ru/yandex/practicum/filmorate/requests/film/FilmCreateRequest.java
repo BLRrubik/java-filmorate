@@ -27,6 +27,5 @@ public class FilmCreateRequest {
     private LocalDate releaseDate;
 
     @NotNull
-    @Positive
     private int duration;
 }

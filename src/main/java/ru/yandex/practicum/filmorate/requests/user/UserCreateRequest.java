@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.time.LocalDate;
 
 @Getter
@@ -24,8 +25,6 @@ public class UserCreateRequest {
     @NotNull
     private String login;
 
-    @NotEmpty
-    @NotNull
     private String name;
 
     @NotNull

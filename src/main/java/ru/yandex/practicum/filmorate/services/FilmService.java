@@ -31,6 +31,11 @@ public class FilmService {
             return null;
         }
 
+        if (filmCreateRequest.getDuration() <= 0) {
+
+            return null;
+        }
+
         film.setName(filmCreateRequest.getName());
         film.setDescription(filmCreateRequest.getDescription());
         film.setRelease(filmCreateRequest.getReleaseDate());
