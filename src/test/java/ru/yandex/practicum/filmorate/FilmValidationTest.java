@@ -70,7 +70,7 @@ public class FilmValidationTest {
 
         FilmCreateRequest filmCreateRequest = new FilmCreateRequest("sasd",
                 "sadasdas",
-                LocalDate.of(1500, 1,1),
+                LocalDate.of(2000, 1,1),
                 100);
 
         Set<ConstraintViolation<FilmCreateRequest>> violations = validator.validate(filmCreateRequest);
