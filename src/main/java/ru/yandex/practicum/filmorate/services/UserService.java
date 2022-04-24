@@ -70,8 +70,6 @@ public class UserService {
         user.setLogin(userUpdateRequest.getLogin());
         user.setEmail(userUpdateRequest.getEmail());
 
-        users.add(user);
-
         log.debug("User with id " + user.getId() + " updated");
 
         return UserMapper.fromUserToDTO(user);
