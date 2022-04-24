@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FilmUpdateRequest {
-
+    @NotNull
     @Positive
     private int id;
 
@@ -30,6 +30,7 @@ public class FilmUpdateRequest {
     @NotNull
     private LocalDate releaseDate;
 
+    @NotNull
     @Positive
     private int duration;
 }
