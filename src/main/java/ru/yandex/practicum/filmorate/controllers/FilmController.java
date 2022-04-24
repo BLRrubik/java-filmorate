@@ -19,7 +19,11 @@ import java.util.Optional;
 @RequestMapping("/films")
 public class FilmController {
     @Autowired
-    private FilmService filmService;
+    private final FilmService filmService;
+
+    public FilmController(FilmService filmService) {
+        this.filmService = filmService;
+    }
 
     @GetMapping("")
     public ResponseEntity<List<FilmDTO>> getAll() {
