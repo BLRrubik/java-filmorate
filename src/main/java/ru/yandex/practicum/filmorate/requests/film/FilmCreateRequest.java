@@ -20,13 +20,12 @@ public class FilmCreateRequest {
     @NotNull
     private String name;
 
-    @Size(max = 5, message = "max length is 200 symbols")
+    @Size(max = 200, message = "max length is 200 symbols")
     private String description;
 
     @NotNull
     private LocalDate releaseDate;
 
-    @NotNull
     @Positive
     private int duration;
 }
