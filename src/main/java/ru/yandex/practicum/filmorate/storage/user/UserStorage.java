@@ -17,4 +17,5 @@ public interface UserStorage {
     List<UserDTO> getAll();
 
     User findById(Long id);
+
 }

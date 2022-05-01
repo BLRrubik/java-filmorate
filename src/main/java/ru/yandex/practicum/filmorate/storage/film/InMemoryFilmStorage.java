@@ -62,6 +62,11 @@ public class InMemoryFilmStorage implements FilmStorage {
     }
 
     @Override
+    public List<Film> get() {
+        return films;
+    }
+
+    @Override
     public FilmDTO update(FilmUpdateRequest filmUpdateRequest) {
         Film film = findById(filmUpdateRequest.getId());
 

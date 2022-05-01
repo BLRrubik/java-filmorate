@@ -56,9 +56,9 @@ public class FilmService {
             throw new InvalidParamException("Param is no valid");
         }
 
-        List<FilmDTO> popularity = filmStorage.getAll();
+        List<Film> popularity = filmStorage.get();
         popularity.sort(Comparator.comparingInt(film -> film.getLikes().size()));
 
-        return popularity.stream().limit(count).collect(Collectors.toList());
+        return FilmMapper.fromFilmsToDTOs(popularity.stream().limit(count).collect(Collectors.toList()));
     }
 }

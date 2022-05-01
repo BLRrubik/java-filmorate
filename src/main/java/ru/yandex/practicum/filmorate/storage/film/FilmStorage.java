@@ -18,4 +18,6 @@ public interface FilmStorage {
     List<FilmDTO> getAll();
 
     Film findById(Long id);
+
+    List<Film> get();
 }
