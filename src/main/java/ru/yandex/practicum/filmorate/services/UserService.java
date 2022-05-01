@@ -1,82 +1,68 @@
 package ru.yandex.practicum.filmorate.services;
 
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.DTO.UserDTO;
 import ru.yandex.practicum.filmorate.entity.User;
 import ru.yandex.practicum.filmorate.mappers.UserMapper;
-import ru.yandex.practicum.filmorate.requests.user.UserCreateRequest;
-import ru.yandex.practicum.filmorate.requests.user.UserUpdateRequest;
-import ru.yandex.practicum.filmorate.utils.DateValidator;
+import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Slf4j
+
 @Service
 public class UserService {
-    private List<User> users;
-    private int counter;
 
-    public UserService() {
-        users = new ArrayList<>();
-        counter = 1;
+    private final UserStorage userStorage;
+
+    @Autowired
+    public UserService(UserStorage userStorage) {
+        this.userStorage = userStorage;
     }
 
-    public UserDTO add(UserCreateRequest userCreateRequest) {
-        User user = new User();
+    public UserDTO addFriend(Long id, Long friendId) {
+        User user = userStorage.findById(id);
 
-        if (!DateValidator.isValidBirthday(userCreateRequest.getBirthday())) {
-            log.debug("User has invalid birthday date: " + userCreateRequest.getBirthday());
-            return null;
-        }
+        User friend = userStorage.findById(friendId);
 
-        user.setId(counter++);
-        user.setUsername(userCreateRequest.getName());
-        user.setBirthday(userCreateRequest.getBirthday());
-        user.setLogin(userCreateRequest.getLogin());
-        user.setEmail(userCreateRequest.getEmail());
-
-        users.add(user);
-
-        log.debug("User with id " + user.getId() + " created");
-        return UserMapper.fromUserToDTO(user);
-    }
-
-    public User findById(int id) {
-        return users.stream()
-                .filter(user -> user.getId() == id)
-                .findFirst()
-                .orElse(null);
-    }
-
-    public UserDTO update(UserUpdateRequest userUpdateRequest) {
-        User user = findById(userUpdateRequest.getId());
-
-        if (user == null) {
-            log.debug("User with id " + userUpdateRequest.getId() + " not found");
-
-            return null;
-        }
-
-        if (!DateValidator.isValidBirthday(userUpdateRequest.getBirthday())) {
-            log.debug("User has invalid birthday date: " + userUpdateRequest.getBirthday());
-
-            return null;
-        }
-
-        user.setUsername(userUpdateRequest.getName());
-        user.setBirthday(userUpdateRequest.getBirthday());
-        user.setLogin(userUpdateRequest.getLogin());
-        user.setEmail(userUpdateRequest.getEmail());
-
-        log.debug("User with id " + user.getId() + " updated");
+        user.addFriend(friend.getId());
+        friend.addFriend(user.getId());
 
         return UserMapper.fromUserToDTO(user);
     }
 
-    public List<UserDTO> getAll() {
-        return UserMapper.fromUsersToDTOs(users);
+    public UserDTO deleteFriend(Long id, Long friendId) {
+        User user = userStorage.findById(id);
+
+        User friend = userStorage.findById(friendId);
+
+        user.deleteFriend(friendId);
+        friend.deleteFriend(id);
+
+        return UserMapper.fromUserToDTO(user);
     }
 
+    public List<UserDTO> getFriends(Long id) {
+        User user = userStorage.findById(id);
+
+        List<User> friends = user.getFriends().stream()
+                .map(userStorage::findById)
+                .collect(Collectors.toList());
+
+        return UserMapper.fromUsersToDTOs(friends);
+    }
+
+    public List<UserDTO> getCommonFriends(Long id, Long idToCheckCommon) {
+        User user = userStorage.findById(id);
+        User userToCheckCommon = userStorage.findById(idToCheckCommon);
+
+
+        List<User> common = user.getFriends().stream()
+                .filter(userToCheckCommon.getFriends()::contains)
+                .map(userStorage::findById)
+                .collect(Collectors.toList());
+
+        return UserMapper.fromUsersToDTOs(common);
+    }
 }

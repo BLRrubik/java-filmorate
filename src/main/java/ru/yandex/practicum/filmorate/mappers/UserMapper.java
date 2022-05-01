@@ -13,7 +13,8 @@ public class UserMapper {
                 user.getEmail(),
                 user.getLogin(),
                 user.getUsername(),
-                user.getBirthday()
+                user.getBirthday(),
+                user.getFriends()
         );
     }
 
