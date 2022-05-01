@@ -19,5 +19,5 @@ public class UserDTO {
     private String login;
     private String username;
     private LocalDate birthday;
-//    private Set<Long> friends;
+    private Set<Long> friends;
 }
