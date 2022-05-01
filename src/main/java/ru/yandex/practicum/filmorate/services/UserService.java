@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.DTO.UserDTO;
 import ru.yandex.practicum.filmorate.entity.User;
+import ru.yandex.practicum.filmorate.exceptions.UserNotFoundException;
 import ru.yandex.practicum.filmorate.mappers.UserMapper;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
@@ -24,7 +25,15 @@ public class UserService {
     public UserDTO addFriend(Long id, Long friendId) {
         User user = userStorage.findById(id);
 
+        if (user == null) {
+            throw new UserNotFoundException("User with id: " + id + " not found");
+        }
+
         User friend = userStorage.findById(friendId);
+
+        if (friend == null) {
+            throw new UserNotFoundException("Friend with id: " + id + " not found");
+        }
 
         user.addFriend(friend.getId());
         friend.addFriend(user.getId());
@@ -35,7 +44,15 @@ public class UserService {
     public UserDTO deleteFriend(Long id, Long friendId) {
         User user = userStorage.findById(id);
 
+        if (user == null) {
+            throw new UserNotFoundException("User with id: " + id + " not found");
+        }
+
         User friend = userStorage.findById(friendId);
+
+        if (friend == null) {
+            throw new UserNotFoundException("Friend with id: " + id + " not found");
+        }
 
         user.deleteFriend(friendId);
         friend.deleteFriend(id);
@@ -46,6 +63,10 @@ public class UserService {
     public List<UserDTO> getFriends(Long id) {
         User user = userStorage.findById(id);
 
+        if (user == null) {
+            throw new UserNotFoundException("User with id: " + id + " not found");
+        }
+
         List<User> friends = user.getFriends().stream()
                 .map(userStorage::findById)
                 .collect(Collectors.toList());
@@ -55,7 +76,16 @@ public class UserService {
 
     public List<UserDTO> getCommonFriends(Long id, Long idToCheckCommon) {
         User user = userStorage.findById(id);
+
+        if (user == null) {
+            throw new UserNotFoundException("User with id: " + id + " not found");
+        }
+
         User userToCheckCommon = userStorage.findById(idToCheckCommon);
+
+        if (userToCheckCommon == null) {
+            throw new UserNotFoundException("User to check common friends with id: " + id + " not found");
+        }
 
 
         List<User> common = user.getFriends().stream()

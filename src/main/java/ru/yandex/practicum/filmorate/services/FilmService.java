@@ -1,6 +1,5 @@
 package ru.yandex.practicum.filmorate.services;
 
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.DTO.FilmDTO;
