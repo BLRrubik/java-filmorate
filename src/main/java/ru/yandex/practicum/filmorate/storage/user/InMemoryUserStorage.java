@@ -34,7 +34,7 @@ public class InMemoryUserStorage implements UserStorage{
         }
 
         user.setId((long) counter++);
-        user.setUsername(userCreateRequest.getName());
+        user.setName(userCreateRequest.getName());
         user.setBirthday(userCreateRequest.getBirthday());
         user.setLogin(userCreateRequest.getLogin());
         user.setEmail(userCreateRequest.getEmail());
@@ -68,7 +68,7 @@ public class InMemoryUserStorage implements UserStorage{
             return null;
         }
 
-        user.setUsername(userUpdateRequest.getName());
+        user.setName(userUpdateRequest.getName());
         user.setBirthday(userUpdateRequest.getBirthday());
         user.setLogin(userUpdateRequest.getLogin());
         user.setEmail(userUpdateRequest.getEmail());
