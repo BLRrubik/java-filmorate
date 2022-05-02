@@ -11,6 +11,8 @@ import ru.yandex.practicum.filmorate.requests.film.FilmCreateRequest;
 import ru.yandex.practicum.filmorate.services.FilmService;
 import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 import ru.yandex.practicum.filmorate.storage.film.InMemoryFilmStorage;
+import ru.yandex.practicum.filmorate.storage.user.InMemoryUserStorage;
+import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -26,7 +28,8 @@ public class FilmValidationTest {
     @BeforeEach
     public void init() {
         FilmStorage filmStorage = new InMemoryFilmStorage();
-        filmController = new FilmController(filmStorage, new FilmService(filmStorage));
+        UserStorage userStorage = new InMemoryUserStorage();
+        filmController = new FilmController(filmStorage, new FilmService(filmStorage,userStorage));
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
     }

@@ -84,8 +84,6 @@ public class InMemoryFilmStorage implements FilmStorage {
         film.setRelease(filmUpdateRequest.getReleaseDate());
         film.setDuration(Duration.ofMinutes(filmUpdateRequest.getDuration()));
 
-        films.add(film);
-
         log.debug("Film with id " + film.getId() + " updated");
 
         return FilmMapper.fromFilmToDTO(film);

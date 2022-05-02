@@ -8,6 +8,7 @@ import ru.yandex.practicum.filmorate.exceptions.FilmNotFound;
 import ru.yandex.practicum.filmorate.exceptions.InvalidParamException;
 import ru.yandex.practicum.filmorate.mappers.FilmMapper;
 import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
+import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
 import java.util.Comparator;
 import java.util.List;
@@ -17,10 +18,12 @@ import java.util.stream.Collectors;
 @Service
 public class FilmService {
     private final FilmStorage filmStorage;
+    private final UserStorage userStorage;
 
     @Autowired
-    public FilmService(FilmStorage filmStorage) {
+    public FilmService(FilmStorage filmStorage, UserStorage userStorage) {
         this.filmStorage = filmStorage;
+        this.userStorage = userStorage;
     }
 
     public FilmDTO addLike(Long id, Long userId) {
@@ -29,6 +32,8 @@ public class FilmService {
         if (film == null) {
             throw new FilmNotFound("Film with id: " + id + " not found");
         }
+
+
 
         film.addLike(userId);
 

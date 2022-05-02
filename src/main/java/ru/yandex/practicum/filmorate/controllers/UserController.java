@@ -56,7 +56,7 @@ public class UserController {
         return ResponseEntity.of(Optional.of(userStorage.update(userUpdateRequest)));
     }
 
-    @PostMapping("/{id}/friends/{friendId}")
+    @PutMapping("/{id}/friends/{friendId}")
     public ResponseEntity<UserDTO> addFriend(@PathVariable Long id,
                                              @PathVariable Long friendId) {
         return ResponseEntity.of(Optional.of(userService.addFriend(id, friendId)));
