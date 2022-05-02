@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.DTO.FilmDTO;
 import ru.yandex.practicum.filmorate.entity.Film;
+import ru.yandex.practicum.filmorate.entity.User;
 import ru.yandex.practicum.filmorate.exceptions.FilmNotFound;
 import ru.yandex.practicum.filmorate.exceptions.InvalidParamException;
+import ru.yandex.practicum.filmorate.exceptions.UserNotFoundException;
 import ru.yandex.practicum.filmorate.mappers.FilmMapper;
 import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
@@ -42,9 +44,14 @@ public class FilmService {
 
     public FilmDTO deleteLike(Long id, Long userId) {
         Film film = filmStorage.findById(id);
+        User user = userStorage.findById(userId);
 
         if (film == null) {
             throw new FilmNotFound("Film with id: " + id + " not found");
+        }
+
+        if (user == null) {
+            throw new UserNotFoundException("User with id: " + userId + " not found");
         }
 
         film.deleteLike(userId);
