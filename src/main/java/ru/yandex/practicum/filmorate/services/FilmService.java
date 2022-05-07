@@ -1,91 +1,76 @@
 package ru.yandex.practicum.filmorate.services;
 
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.DTO.FilmDTO;
 import ru.yandex.practicum.filmorate.entity.Film;
+import ru.yandex.practicum.filmorate.entity.User;
+import ru.yandex.practicum.filmorate.exceptions.FilmNotFound;
+import ru.yandex.practicum.filmorate.exceptions.InvalidParamException;
+import ru.yandex.practicum.filmorate.exceptions.UserNotFoundException;
 import ru.yandex.practicum.filmorate.mappers.FilmMapper;
-import ru.yandex.practicum.filmorate.requests.film.FilmCreateRequest;
-import ru.yandex.practicum.filmorate.requests.film.FilmUpdateRequest;
-import ru.yandex.practicum.filmorate.utils.DateValidator;
+import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
+import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
-import java.time.Duration;
-import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Slf4j
+
 @Service
 public class FilmService {
-    private List<Film> films;
-    private int counter;
+    private final FilmStorage filmStorage;
+    private final UserStorage userStorage;
 
-    public FilmService() {
-        films = new ArrayList<>();
-        counter = 1;
+    @Autowired
+    public FilmService(FilmStorage filmStorage, UserStorage userStorage) {
+        this.filmStorage = filmStorage;
+        this.userStorage = userStorage;
     }
 
-    public FilmDTO add(FilmCreateRequest filmCreateRequest) {
-        Film film = new Film();
-
-        if (!DateValidator.isValidRelease(filmCreateRequest.getReleaseDate())) {
-            log.debug("Film has bad release date: " + filmCreateRequest.getReleaseDate());
-            return null;
-        }
-
-        if (filmCreateRequest.getDuration() <= 0) {
-
-            return null;
-        }
-
-        film.setName(filmCreateRequest.getName());
-        film.setDescription(filmCreateRequest.getDescription());
-        film.setRelease(filmCreateRequest.getReleaseDate());
-        film.setDuration(Duration.ofMinutes(filmCreateRequest.getDuration()));
-
-        film.setId(counter++);
-
-        films.add(film);
-
-        log.debug("Film with id " + film.getId() + " created");
-
-        return FilmMapper.fromFilmToDTO(film);
-    }
-
-    public Film findById(int id) {
-        return films.stream()
-                .filter(film -> film.getId() == id)
-                .findFirst()
-                .orElse(null);
-    }
-
-    public FilmDTO update(FilmUpdateRequest filmUpdateRequest) {
-        Film film = findById(filmUpdateRequest.getId());
+    public FilmDTO addLike(Long id, Long userId) {
+        Film film = filmStorage.findById(id);
 
         if (film == null) {
-            log.debug("film with id " + filmUpdateRequest.getId() + " not found");
-
-            return null;
+            throw new FilmNotFound("Film with id: " + id + " not found");
         }
 
-        if (!DateValidator.isValidRelease(filmUpdateRequest.getReleaseDate())) {
-            log.debug("Film has bad release date: " + filmUpdateRequest.getReleaseDate());
-            return null;
-        }
 
-        film.setName(filmUpdateRequest.getName());
-        film.setDescription(filmUpdateRequest.getDescription());
-        film.setRelease(filmUpdateRequest.getReleaseDate());
-        film.setDuration(Duration.ofMinutes(filmUpdateRequest.getDuration()));
 
-        films.add(film);
-
-        log.debug("Film with id " + film.getId() + " updated");
+        film.addLike(userId);
 
         return FilmMapper.fromFilmToDTO(film);
     }
 
-    public List<FilmDTO> getAll() {
-        return FilmMapper.fromFilmsToDTOs(films);
+    public FilmDTO deleteLike(Long id, Long userId) {
+        Film film = filmStorage.findById(id);
+        User user = userStorage.findById(userId);
+
+        if (film == null) {
+            throw new FilmNotFound("Film with id: " + id + " not found");
+        }
+
+        if (user == null) {
+            throw new UserNotFoundException("User with id: " + userId + " not found");
+        }
+
+        film.deleteLike(userId);
+
+        return FilmMapper.fromFilmToDTO(film);
     }
 
+    public List<FilmDTO> getPopular(String countString) {
+        int count;
+
+        try {
+            count = Integer.parseInt(countString);
+        } catch (Exception e){
+            throw new InvalidParamException("Param is no valid");
+        }
+
+        List<Film> popularity = filmStorage.get();
+        popularity.sort(Comparator.comparingInt(film -> film.getLikes().size()));
+
+        return FilmMapper.fromFilmsToDTOs(popularity.stream().limit(count).collect(Collectors.toList()));
+    }
 }

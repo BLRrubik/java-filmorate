@@ -18,7 +18,7 @@ import java.time.LocalDate;
 public class FilmUpdateRequest {
     @NotNull
     @Positive
-    private int id;
+    private Long id;
 
     @NotEmpty
     @NotNull

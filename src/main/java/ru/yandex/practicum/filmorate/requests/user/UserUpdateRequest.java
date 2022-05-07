@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.time.LocalDate;
 
 @Getter
@@ -16,7 +17,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class UserUpdateRequest {
     @NotNull
-    private int id;
+    @Positive
+    private Long id;
 
     @Email
     private String email;

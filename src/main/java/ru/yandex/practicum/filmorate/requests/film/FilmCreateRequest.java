@@ -20,6 +20,8 @@ public class FilmCreateRequest {
     @NotNull
     private String name;
 
+    @NotEmpty
+    @NotNull
     @Size(max = 200, message = "max length is 200 symbols")
     private String description;
 
