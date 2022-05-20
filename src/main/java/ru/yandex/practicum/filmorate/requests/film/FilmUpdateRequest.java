@@ -17,7 +17,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class FilmUpdateRequest {
     @NotNull
-    @Positive
     private Long id;
 
     @NotEmpty

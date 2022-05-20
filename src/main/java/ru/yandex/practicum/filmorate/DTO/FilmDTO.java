@@ -18,7 +18,7 @@ public class FilmDTO {
     private Long id;
     private String name;
     private String description;
-    private LocalDate release;
+    private LocalDate releaseDate;
     private int duration;
     private Set<Long> likes;
 }

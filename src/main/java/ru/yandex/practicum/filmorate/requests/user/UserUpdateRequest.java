@@ -17,7 +17,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class UserUpdateRequest {
     @NotNull
-    @Positive
     private Long id;
 
     @Email
