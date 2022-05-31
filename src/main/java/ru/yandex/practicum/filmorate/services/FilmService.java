@@ -12,6 +12,7 @@ import ru.yandex.practicum.filmorate.mappers.FilmMapper;
 import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -70,6 +71,7 @@ public class FilmService {
 
         List<Film> popularity = filmStorage.get();
         popularity.sort(Comparator.comparingInt(film -> film.getLikes().size()));
+        Collections.reverse(popularity);
 
         return FilmMapper.fromFilmsToDTOs(popularity.stream().limit(count).collect(Collectors.toList()));
     }
