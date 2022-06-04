@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import ru.yandex.practicum.filmorate.DTO.UserDTO;
 import ru.yandex.practicum.filmorate.controllers.UserController;
 import ru.yandex.practicum.filmorate.requests.user.UserCreateRequest;
@@ -22,11 +23,12 @@ import java.util.Set;
 public class UserValidationTest {
     private UserController userController;
     private Validator validator;
+    private JdbcTemplate jdbcTemplate;
 
     @BeforeEach
     public void init() {
         UserStorage userStorage = new InMemoryUserStorage();
-        userController = new UserController(userStorage, new UserService(userStorage) {
+        userController = new UserController(userStorage, new UserService(userStorage, jdbcTemplate) {
         });
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();

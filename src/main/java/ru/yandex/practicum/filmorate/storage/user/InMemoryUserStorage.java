@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-@Component
+@Component("in_memory_user_storage")
 public class InMemoryUserStorage implements UserStorage{
     private List<User> users;
     private int counter;
@@ -45,7 +45,6 @@ public class InMemoryUserStorage implements UserStorage{
         return UserMapper.fromUserToDTO(user);
     }
 
-    @Override
     public User findById(Long id) {
         return users.stream()
                 .filter(user -> user.getId().equals(id))
