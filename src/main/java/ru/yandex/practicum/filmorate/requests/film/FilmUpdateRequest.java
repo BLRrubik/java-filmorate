@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ru.yandex.practicum.filmorate.entity.Rating;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -32,4 +33,7 @@ public class FilmUpdateRequest {
     @NotNull
     @Positive
     private int duration;
+
+    @NotNull
+    private Rating mpa;
 }

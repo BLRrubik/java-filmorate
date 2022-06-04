@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.DTO.FilmDTO;
 import ru.yandex.practicum.filmorate.entity.Film;
@@ -23,23 +24,24 @@ import java.util.stream.Collectors;
 public class FilmService {
     private final FilmStorage filmStorage;
     private final UserStorage userStorage;
+    private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public FilmService(FilmStorage filmStorage, @Qualifier("in_memory_user_storage") UserStorage userStorage) {
+    public FilmService(@Qualifier("db_film_storage") FilmStorage filmStorage, @Qualifier("db_user_storage") UserStorage userStorage, JdbcTemplate jdbcTemplate) {
         this.filmStorage = filmStorage;
         this.userStorage = userStorage;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     public FilmDTO addLike(Long id, Long userId) {
         Film film = filmStorage.findById(id);
+        User user = userStorage.findById(userId);
 
-        if (film == null) {
-            throw new FilmNotFound("Film with id: " + id + " not found");
-        }
+        film.addLike(user.getId());
 
+        String sql = "insert into likes (user_id, film_id) values(?,?)";
 
-
-        film.addLike(userId);
+        jdbcTemplate.update(sql, user.getId(), film.getId());
 
         return FilmMapper.fromFilmToDTO(film);
     }
@@ -48,15 +50,11 @@ public class FilmService {
         Film film = filmStorage.findById(id);
         User user = userStorage.findById(userId);
 
-        if (film == null) {
-            throw new FilmNotFound("Film with id: " + id + " not found");
-        }
-
-        if (user == null) {
-            throw new UserNotFoundException("User with id: " + userId + " not found");
-        }
-
         film.deleteLike(userId);
+
+        String sql = "delete from likes where film_id = ? and user_id = ?;";
+
+        jdbcTemplate.update(sql, film.getId(), user.getId());
 
         return FilmMapper.fromFilmToDTO(film);
     }

@@ -39,9 +39,6 @@ public class UserService {
         String sql = "insert into friends (user_id, friend_id, status_id) values (?,?,1);";
 
         jdbcTemplate.update(sql, user.getId(), friend.getId());
-        jdbcTemplate.update(sql, friend.getId(), user.getId());
-
-
 
         return UserMapper.fromUserToDTO(user);
     }

@@ -44,7 +44,9 @@ public class DbUserStorage implements UserStorage{
 
         int status = jdbcTemplate.update(con -> {
                     PreparedStatement stmt = con.prepareStatement(sql, new String[]{"user_id"});
-                    stmt.setString(1,userCreateRequest.getName());
+                    stmt.setString(1,
+                            userCreateRequest.getName().isEmpty() ?
+                                    userCreateRequest.getLogin() : userCreateRequest.getName());
                     stmt.setString(2,userCreateRequest.getLogin());
                     stmt.setString(3,userCreateRequest.getEmail());
                     stmt.setDate(4, Date.valueOf(userCreateRequest.getBirthday()));
@@ -68,7 +70,9 @@ public class DbUserStorage implements UserStorage{
 
         int status = jdbcTemplate.update(con -> {
             PreparedStatement stmt = con.prepareStatement(sql, new String[]{"user_id"});
-            stmt.setString(1,userUpdateRequest.getName());
+            stmt.setString(1,
+                    userUpdateRequest.getName().isEmpty() ?
+                            userUpdateRequest.getLogin() : userUpdateRequest.getName());
             stmt.setString(2,userUpdateRequest.getLogin());
             stmt.setString(3,userUpdateRequest.getEmail());
             stmt.setDate(4, Date.valueOf(userUpdateRequest.getBirthday()));
