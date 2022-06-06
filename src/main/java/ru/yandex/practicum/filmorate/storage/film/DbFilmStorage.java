@@ -12,7 +12,6 @@ import ru.yandex.practicum.filmorate.exceptions.FilmNotFound;
 import ru.yandex.practicum.filmorate.mappers.FilmMapper;
 import ru.yandex.practicum.filmorate.requests.film.FilmCreateRequest;
 import ru.yandex.practicum.filmorate.requests.film.FilmUpdateRequest;
-import ru.yandex.practicum.filmorate.utils.DateValidator;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -22,7 +21,6 @@ import java.time.Duration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 
 @Component("db_film_storage")
 public class DbFilmStorage implements FilmStorage{
@@ -36,9 +34,6 @@ public class DbFilmStorage implements FilmStorage{
     public FilmDTO add(FilmCreateRequest filmCreateRequest) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        if (!DateValidator.isValidRelease(filmCreateRequest.getReleaseDate())) {
-            return null;
-        }
 
         String sql = "insert into films (name, description, release, duration, rating_id) " +
                 "values (?,?,?,?,?);";

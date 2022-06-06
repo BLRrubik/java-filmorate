@@ -11,8 +11,11 @@ import ru.yandex.practicum.filmorate.exceptions.FilmNotFound;
 import ru.yandex.practicum.filmorate.exceptions.InvalidParamException;
 import ru.yandex.practicum.filmorate.exceptions.UserNotFoundException;
 import ru.yandex.practicum.filmorate.mappers.FilmMapper;
+import ru.yandex.practicum.filmorate.requests.film.FilmCreateRequest;
+import ru.yandex.practicum.filmorate.requests.film.FilmUpdateRequest;
 import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
+import ru.yandex.practicum.filmorate.utils.DateValidator;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -31,6 +34,23 @@ public class FilmService {
         this.filmStorage = filmStorage;
         this.userStorage = userStorage;
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    public FilmDTO addFilm(FilmCreateRequest filmCreateRequest) {
+
+        if (!DateValidator.isValidRelease(filmCreateRequest.getReleaseDate())) {
+            return null;
+        }
+
+        return filmStorage.add(filmCreateRequest);
+    }
+
+    public FilmDTO updateFilm(FilmUpdateRequest filmUpdateRequest) {
+        if (!DateValidator.isValidRelease(filmUpdateRequest.getReleaseDate())) {
+            return null;
+        }
+
+        return filmStorage.update(filmUpdateRequest);
     }
 
     public FilmDTO addLike(Long id, Long userId) {
