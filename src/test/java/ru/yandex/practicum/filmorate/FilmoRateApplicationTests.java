@@ -19,6 +19,7 @@ import ru.yandex.practicum.filmorate.storage.user.DbUserStorage;
 
 import java.time.Duration;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -99,6 +100,7 @@ public class FilmoRateApplicationTests {
                 "1",
                 LocalDate.of(2002,7,3),
                 (int) Duration.ofMinutes(100).toMinutes(),
+                new ArrayList<>(),
                 new Rating(1L, "a", "a")
         ));
 
@@ -120,6 +122,7 @@ public class FilmoRateApplicationTests {
                 "1",
                 LocalDate.of(2002,7,3),
                 (int) Duration.ofMinutes(100).toMinutes(),
+                new ArrayList<>(),
                 new Rating(1L, "a", "a")
         ));
 
@@ -129,6 +132,7 @@ public class FilmoRateApplicationTests {
                 "2",
                 LocalDate.of(2002,7,3),
                 (int) Duration.ofMinutes(100).toMinutes(),
+                new ArrayList<>(),
                 new Rating(1L, "a", "a")
         ));
 
