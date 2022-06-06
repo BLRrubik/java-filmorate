@@ -7,6 +7,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.DTO.FilmDTO;
 import ru.yandex.practicum.filmorate.entity.Film;
+import ru.yandex.practicum.filmorate.entity.Genre;
 import ru.yandex.practicum.filmorate.entity.Rating;
 import ru.yandex.practicum.filmorate.exceptions.FilmNotFound;
 import ru.yandex.practicum.filmorate.mappers.FilmMapper;
@@ -140,6 +141,15 @@ public class DbFilmStorage implements FilmStorage{
         return jdbcTemplate.query(sql, this::mapRowToUserLike, id);
     }
 
+    private List<Genre> getGenres (Long id) {
+        String sql = "select gf.genre_id from film_genre as gf " +
+                     "left join films as f on f.film_id = gf.film_id " +
+                     "left join genre as g on g.genre_id = gf.genre_id" +
+                     "where l.film_id = ?";
+
+        return jdbcTemplate.query(sql, this::mapRowToGenre, id);
+    }
+
     private Long mapRowToUserLike (ResultSet resultSet, int rowNum) throws SQLException {
         return resultSet.getLong("user_id");
     }
@@ -165,6 +175,13 @@ public class DbFilmStorage implements FilmStorage{
                 .id(resultSet.getLong("rating_id"))
                 .name(resultSet.getString("name"))
                 .description(resultSet.getString("description"))
+                .build();
+    }
+
+    private Genre mapRowToGenre(ResultSet resultSet, int rowNum) throws SQLException {
+        return Genre.builder()
+                .id(resultSet.getLong("genre_id"))
+                .name(resultSet.getString("name"))
                 .build();
     }
 }
