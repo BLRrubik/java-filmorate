@@ -28,7 +28,7 @@ public class UserValidationTest {
     @BeforeEach
     public void init() {
         UserStorage userStorage = new InMemoryUserStorage();
-        userController = new UserController(userStorage, new UserService(userStorage, jdbcTemplate) {
+        userController = new UserController(new UserService(userStorage, jdbcTemplate) {
         });
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();

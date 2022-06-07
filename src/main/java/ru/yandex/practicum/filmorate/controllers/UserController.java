@@ -22,12 +22,10 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    private final UserStorage userStorage;
     private final UserService userService;
 
     @Autowired
-    public UserController(@Qualifier("db_user_storage") UserStorage userStorage, UserService userService) {
-        this.userStorage = userStorage;
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
@@ -35,26 +33,26 @@ public class UserController {
     public ResponseEntity<List<UserDTO>> getAll() {
         log.info("Request to get all users");
 
-        return ResponseEntity.of(Optional.of(userStorage.getAll()));
+        return ResponseEntity.of(Optional.of(userService.getAll()));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUser(@PathVariable Long id) {
-        return ResponseEntity.of(Optional.of(userStorage.getUser(id)));
+        return ResponseEntity.of(Optional.of(userService.getUser(id)));
     }
 
     @PostMapping("")
     public ResponseEntity<UserDTO> create(@Valid @RequestBody UserCreateRequest userCreateRequest) {
         log.info("Request to add user");
 
-        return ResponseEntity.of(Optional.of(userStorage.add(userCreateRequest)));
+        return ResponseEntity.of(Optional.of(userService.addUser(userCreateRequest)));
     }
 
     @PutMapping("")
     public ResponseEntity<UserDTO> update(@Valid @RequestBody UserUpdateRequest userUpdateRequest) {
         log.info("Request to update user");
 
-        return ResponseEntity.of(Optional.of(userStorage.update(userUpdateRequest)));
+        return ResponseEntity.of(Optional.of(userService.updateUser(userUpdateRequest)));
     }
 
     @PutMapping("/{id}/friends/{friendId}")

@@ -8,6 +8,7 @@ import ru.yandex.practicum.filmorate.DTO.UserDTO;
 import ru.yandex.practicum.filmorate.entity.User;
 import ru.yandex.practicum.filmorate.exceptions.UserNotFoundException;
 import ru.yandex.practicum.filmorate.mappers.UserMapper;
+import ru.yandex.practicum.filmorate.requests.user.UserCreateRequest;
 import ru.yandex.practicum.filmorate.requests.user.UserUpdateRequest;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
@@ -26,6 +27,22 @@ public class UserService {
     public UserService(@Qualifier("db_user_storage") UserStorage userStorage, JdbcTemplate jdbcTemplate) {
         this.userStorage = userStorage;
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    public UserDTO addUser(UserCreateRequest userCreateRequest) {
+        return userStorage.add(userCreateRequest);
+    }
+
+    public List<UserDTO> getAll() {
+        return userStorage.getAll();
+    }
+
+    public UserDTO updateUser(UserUpdateRequest userUpdateRequest) {
+        return userStorage.update(userUpdateRequest);
+    }
+
+    public UserDTO getUser(Long id) {
+        return userStorage.getUser(id);
     }
 
     public UserDTO addFriend(Long id, Long friendId) {

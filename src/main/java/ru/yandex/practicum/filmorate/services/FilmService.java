@@ -36,6 +36,14 @@ public class FilmService {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    public List<FilmDTO> getAll() {
+        return filmStorage.getAll();
+    }
+
+    public FilmDTO getFilm(Long id) {
+        return filmStorage.getFilm(id);
+    }
+
     public FilmDTO addFilm(FilmCreateRequest filmCreateRequest) {
 
         if (!DateValidator.isValidRelease(filmCreateRequest.getReleaseDate())) {
