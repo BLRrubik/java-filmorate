@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -20,33 +21,31 @@ import java.util.Optional;
 @RequestMapping("/films")
 public class FilmController {
 
-    private final FilmStorage filmStorage;
     private final FilmService filmService;
 
     @Autowired
-    public FilmController(FilmStorage filmStorage, FilmService filmService) {
-        this.filmStorage = filmStorage;
+    public FilmController(FilmService filmService) {
         this.filmService = filmService;
     }
 
     @GetMapping("")
     public ResponseEntity<List<FilmDTO>> getAll() {
-        return ResponseEntity.of(Optional.of(filmStorage.getAll()));
+        return ResponseEntity.of(Optional.of(filmService.getAll()));
     }
 
     @GetMapping("{id}")
     public ResponseEntity<FilmDTO> getFilm(@PathVariable Long id) {
-        return ResponseEntity.of(Optional.of(filmStorage.getFilm(id)));
+        return ResponseEntity.of(Optional.of(filmService.getFilm(id)));
     }
 
     @PostMapping("")
     public ResponseEntity<FilmDTO> create(@Valid @RequestBody FilmCreateRequest filmCreateRequest) {
-        return ResponseEntity.of(Optional.of(filmStorage.add(filmCreateRequest)));
+        return ResponseEntity.of(Optional.of(filmService.addFilm(filmCreateRequest)));
     }
 
     @PutMapping("")
     public ResponseEntity<FilmDTO> update(@Valid @RequestBody FilmUpdateRequest filmUpdateRequest) {
-        return ResponseEntity.of(Optional.of(filmStorage.update(filmUpdateRequest)));
+        return ResponseEntity.of(Optional.of(filmService.updateFilm(filmUpdateRequest)));
     }
 
     @PutMapping("{id}/like/{userId}")

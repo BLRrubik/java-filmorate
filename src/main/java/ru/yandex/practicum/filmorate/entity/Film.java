@@ -1,25 +1,26 @@
 package ru.yandex.practicum.filmorate.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Film {
     private Long id;
     private String name;
     private String description;
     private LocalDate release;
     private Duration duration;
+    private Rating mpa;
+    private List<Genre> genres;
     private Set<Long> likes = new HashSet<>();
 
     public void addLike(Long id) {

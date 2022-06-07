@@ -14,7 +14,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Component("in_memory_film_storage")
 @Slf4j
 public class InMemoryFilmStorage implements FilmStorage {
     private List<Film> films;

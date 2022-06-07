@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ru.yandex.practicum.filmorate.entity.Rating;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -20,5 +21,6 @@ public class FilmDTO {
     private String description;
     private LocalDate releaseDate;
     private int duration;
+    private Rating mpa;
     private Set<Long> likes;
 }

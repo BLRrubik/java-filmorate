@@ -16,6 +16,7 @@ public class FilmMapper {
                 film.getDescription(),
                 film.getRelease(),
                 (int) film.getDuration().toMinutes(),
+                film.getMpa(),
                 film.getLikes()
         );
     }
